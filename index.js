@@ -6,6 +6,7 @@ app.use(cors());
 app.use(express.json());
 
 const port = 5000;
+const TWEETS_LIMIT = 10;
 
 const users = [];
 
@@ -26,7 +27,8 @@ app.post('/tweets', (req, res) => {
     const tweet = req.body;
     if (tweet.hasOwnProperty('username')
         && tweet.hasOwnProperty('tweet')) {
-        tweets.push(tweet);
+        tweets.unshift(tweet);
+        if(tweets.length > TWEETS_LIMIT) tweets.pop();
         res.send('OK');
     } else {
         res.status(400).send('BAD REQUEST');
