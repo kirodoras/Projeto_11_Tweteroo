@@ -22,4 +22,15 @@ app.post('/sign-up', (req, res) => {
     }
 });
 
+app.post('/tweets', (req, res) => {
+    const tweet = req.body;
+    if (tweet.hasOwnProperty('username')
+        && tweet.hasOwnProperty('tweet')) {
+        tweets.push(tweet);
+        res.send('OK');
+    } else {
+        res.status(400).send('BAD REQUEST');
+    }
+});
+
 app.listen(port);
