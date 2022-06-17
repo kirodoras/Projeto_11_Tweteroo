@@ -33,4 +33,8 @@ app.post('/tweets', (req, res) => {
     }
 });
 
+app.get('/tweets', (req, res) => {
+    res.send(tweets);
+});
+
 app.listen(port);
