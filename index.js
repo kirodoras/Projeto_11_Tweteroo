@@ -21,7 +21,7 @@ app.post('/sign-up', (req, res) => {
             return;
         }
         users.push(user);
-        res.send('OK');
+        res.status(201).send('OK');
         return;
     } else {
         res.sendStatus(400);
@@ -48,7 +48,7 @@ app.post('/tweets', (req, res) => {
         tweet.avatar = user.avatar;
         tweets.unshift(tweet);
         if (tweets.length > TWEETS_LIMIT) tweets.pop();
-        res.send('OK');
+        res.status(201).send('OK');
         return;
     } else {
         res.res.sendStatus(400);
