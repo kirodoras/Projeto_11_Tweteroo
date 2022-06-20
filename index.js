@@ -27,8 +27,10 @@ app.post('/tweets', (req, res) => {
     const tweet = req.body;
     if (tweet.hasOwnProperty('username')
         && tweet.hasOwnProperty('tweet')) {
+        const user = users.find((info) => info.username === tweet.username);
+        tweet.avatar = user.avatar;
         tweets.unshift(tweet);
-        if(tweets.length > TWEETS_LIMIT) tweets.pop();
+        if (tweets.length > TWEETS_LIMIT) tweets.pop();
         res.send('OK');
     } else {
         res.status(400).send('BAD REQUEST');
