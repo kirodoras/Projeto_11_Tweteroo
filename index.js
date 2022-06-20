@@ -16,29 +16,49 @@ app.post('/sign-up', (req, res) => {
     const user = req.body;
     if (user.hasOwnProperty('username')
         && user.hasOwnProperty('avatar')) {
+        if (user.username.length < 1 || user.avatar.length < 1) {
+            res.sendStatus(400)
+            return;
+        }
         users.push(user);
         res.send('OK');
+        return;
     } else {
-        res.status(400).send('BAD REQUEST');
+        res.sendStatus(400);
+        return;
     }
 });
 
 app.post('/tweets', (req, res) => {
     const tweet = req.body;
-    if (tweet.hasOwnProperty('username')
-        && tweet.hasOwnProperty('tweet')) {
-        const user = users.find((info) => info.username === tweet.username);
+    const user = users.find((info) => info.username === tweet.username);
+    if (!user) {
+        res.sendStatus(400);
+        return;
+    }
+    if(!tweet.hasOwnProperty('tweet')) {
+        res.sendStatus(400);
+        return;
+    }
+    if (tweet.hasOwnProperty('username')) {
+        if (tweet.username.length < 1 || tweet.tweet.length < 1) {
+            res.sendStatus(400);
+            return;
+        }
         tweet.avatar = user.avatar;
         tweets.unshift(tweet);
         if (tweets.length > TWEETS_LIMIT) tweets.pop();
         res.send('OK');
+        return;
     } else {
-        res.status(400).send('BAD REQUEST');
+        res.res.sendStatus(400);
+        return;
     }
 });
 
 app.get('/tweets', (req, res) => {
     res.send(tweets);
+    return;
 });
 
 app.listen(port);
